@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import Email
+from wtforms.validators import DataRequired, Email
 
 
 class RegisterForm(FlaskForm):
-    email = StringField()
+    email = StringField(validators=[DataRequired(), Email()])
     firstname = StringField()
     lastname = StringField()
     phone = StringField()
