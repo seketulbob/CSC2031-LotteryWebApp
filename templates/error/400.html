@@ -2,6 +2,15 @@
 
 {% block content %}
 
-    <h2 class="title is-2">Bad Request Error</h2>
+    <div class="error-container">
+        <h2 class="title is-2">Bad Request Error (400)</h2>
+        <p class="error-message">The server cannot or will not process the request due to an apparent client error.</p>
+        <p class="external-link">
+            For more information, you can visit the
+            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400" target="_blank" rel="noopener noreferrer">
+                Mozilla HTTP Status Code Documentation
+            </a>.
+        </p>
+    </div>
 
 {% endblock %}

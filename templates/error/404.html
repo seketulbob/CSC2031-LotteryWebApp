@@ -2,6 +2,15 @@
 
 {% block content %}
 
-    <h2 class="title is-2">Not Found Error</h2>
+    <div class="error-container">
+        <h2 class="title is-2">Not Found Error (404)</h2>
+        <p class="error-message">The server did not find the requested resource.</p>
+        <p class="external-link">
+            For more information, you can visit the
+            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404" target="_blank" rel="noopener noreferrer">
+                Mozilla HTTP Status Code Documentation
+            </a>.
+        </p>
+    </div>
 
 {% endblock %}

@@ -2,6 +2,15 @@
 
 {% block content %}
 
-    <h2 class="title is-2">Internal Server Error</h2>
+    <div class="error-container">
+        <h2 class="title is-2">Internal Server Error (500)</h2>
+        <p class="error-message">An unexpected condition was encountered by the server.</p>
+        <p class="external-link">
+            For more information, you can visit the
+            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500" target="_blank" rel="noopener noreferrer">
+                Mozilla HTTP Status Code Documentation
+            </a>.
+        </p>
+    </div>
 
 {% endblock %}
