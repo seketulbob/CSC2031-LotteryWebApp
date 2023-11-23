@@ -51,5 +51,5 @@ class RegisterForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField(validators=[DataRequired(), Email()])
-    password = PasswordField(validators=[DataRequired()])
+    password = PasswordField(validators=[DataRequired(), validate_password])
     submit = SubmitField()
