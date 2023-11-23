@@ -18,6 +18,18 @@ db = SQLAlchemy(app)
 def index():
     return render_template('main/index.html')
 
+# ERRORS
+@app.errorhandler(403)
+def forbidden_error(error):
+    return render_template('error/403.html')
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('error/404.html')
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('error/500.html')
 
 # BLUEPRINTS
 # import blueprints
