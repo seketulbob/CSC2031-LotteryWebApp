@@ -5,6 +5,7 @@ from flask_login import LoginManager
 import os
 from dotenv import load_dotenv
 from flask_migrate import Migrate
+from flask_qrcode import QRcode
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIF
 
 # initialise database
 db = SQLAlchemy(app)
+qrcode = QRcode(app)
 migrate = Migrate(app, db)
 
 

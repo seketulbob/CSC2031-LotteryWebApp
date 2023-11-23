@@ -9,3 +9,4 @@ python-dotenv
 pyotp
 flask_script
 Flask-Migrate
+flask-qrcode

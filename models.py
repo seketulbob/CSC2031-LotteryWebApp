@@ -1,4 +1,5 @@
 import pyotp
+import pyotp.totp
 
 from app import db, app
 from flask_login import UserMixin
@@ -33,6 +34,9 @@ class User(db.Model, UserMixin):
 
     def verify_password(self, password):
         return self.password == password
+
+    def get_2fa_uri(self):
+        return str(pyotp.totp.TOTP(self.pin_key).provisioning_uri(name=self.email, issuer_name='Lottery'))
 
 
 class Draw(db.Model):
