@@ -3,10 +3,16 @@
 {% block content %}
 
 <div class="column is-6 is-offset-3">
-    <h3 class="title">Your Account</h3>
-
-    <div class="box">
-        <table class="table">
+        <h3 class="title">Your Account</h3>
+        <div class="box">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <table class="table">
         <tbody>
             <tr>
                 <th>Account No.</th>
@@ -27,6 +33,10 @@
             <tr>
                 <th>Phone No.</th>
                 <th>{{ phone }}</th>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td><a style='color: blue' href="{{ url_for('users.update_password') }}">Change Password</a></td>
             </tr>
         </tbody>
         </table>

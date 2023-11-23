@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, session
 from app import db
 from models import User
-from users.forms import RegisterForm, LoginForm
+from users.forms import RegisterForm, LoginForm, PasswordForm
 from flask_login import login_user, logout_user, login_required, current_user
 from markupsafe import Markup
 from datetime import datetime
@@ -123,3 +123,28 @@ def account():
                            firstname=current_user.firstname,
                            lastname=current_user.lastname,
                            phone=current_user.phone)
+
+@users_blueprint.route('/update_password', methods=['GET', 'POST'])
+@login_required
+def update_password():
+    form = PasswordForm()
+
+    if form.validate_on_submit():
+        # Check if the current password entered by the user matches the current password in the database
+        if not current_user.verify_password(form.current_password.data):
+            flash('Incorrect current password. Please try again')
+            return render_template('users/update_password.html', form=form)
+
+        # Check if the new password entered by the user matches the current password in the database
+        if current_user.verify_password(form.new_password.data):
+            flash('New password must be different from the current password')
+            return render_template('users/update_password.html', form=form)
+
+        # If both check pass, update the password
+        current_user.password = form.new_password.data
+        db.session.commit()
+        flash('Password changed successfully')
+        return redirect(url_for('users.account'))
+
+    return render_template('users/update_password.html', form=form)
+
