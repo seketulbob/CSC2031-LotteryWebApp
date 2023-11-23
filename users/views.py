@@ -67,7 +67,9 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()  # Email input must match as email in database
 
-        if not user or not user.verify_password(form.password.data):  # Password input must match password in database
+        if (not user
+                or not user.verify_password(form.password.data))\
+                or not user.verify_pin(form.pin.data):  # Password input must match password in database
             flash('Please check your login details and try again')
             return render_template('users/login.html', form=form)  # if email/password don't match, reload login page
 
