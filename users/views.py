@@ -4,6 +4,8 @@ from app import db
 from models import User
 from users.forms import RegisterForm, LoginForm
 from flask_login import login_user, logout_user
+from markupsafe import Markup
+
 
 # CONFIG
 users_blueprint = Blueprint('users', __name__, template_folder='templates')
@@ -63,20 +65,38 @@ def setup_2fa():
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if not session.get('authentication_attempts'):
+        session['authentication_attempts'] = 0
 
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()  # Email input must match as email in database
+        print("form validate_on_submit is working")
+        user = User.query.filter_by(email=form.email.data).first()
 
-        if (not user
-                or not user.verify_password(form.password.data))\
-                or not user.verify_pin(form.pin.data):  # Password input must match password in database
-            flash('Please check your login details and try again')
-            return render_template('users/login.html', form=form)  # if email/password don't match, reload login page
+        if not user or not user.verify_password(form.password.data) or not user.verify_pin(form.pin.data):
+            session['authentication_attempts'] += 1
+            print("authentication attempts increment is working")
 
-        login_user(user)  # Log in user. User is given an id and created a web session
-        return redirect(url_for('lottery.lottery'))  # if email & password match, redirect user to lottery page
+            if session.get('authentication_attempts') >= 3:
+                flash(Markup('Number of incorrect login attempts exceeded. '
+                             'Please click <a href="/reset">here</a> to reset.'))
+                print("max login attempt catch is working")
+                return render_template('users/login.html')
+            flash('Please check your login details and try again,'
+                  '{} login attempts remaining'.format(3 - session.get('authentication_attempts')))
+            return render_template('users/login.html', form=form)
+
+        login_user(user)
+        session['authentication_attempts'] = 0
+        print("login is working")
+        return redirect(url_for('lottery.lottery'))
 
     return render_template('users/login.html', form=form)
+
+
+@users_blueprint.route('/reset')
+def reset():
+    session['authentication_attempts'] = 0
+    return redirect(url_for('users.login'))
 
 @users_blueprint.route('/logout')
 def logout():

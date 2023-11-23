@@ -7,10 +7,11 @@
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     <div class="notification is-danger">
-                        {{ messages[0] }}
+                        {{ messages[0] | safe }}
                     </div>
                 {% endif %}
             {% endwith %}
+            {% if form %}
                 <form method="POST">
                     <div class="field">
                         {{ form.csrf_token() }}
@@ -24,11 +25,17 @@
                     <div class="field">
                         <div class="control">
                             {{ form.password(class="input", placeholder="Password") }}
+                            {% for error in form.password.errors %}
+                                {{ error }}
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="field">
                         <div class="control">
                            {{ form.pin(class="input", placeholder="PIN") }}
+                            {% for error in form.pin.errors %}
+                                {{ error }}
+                            {% endfor %}
                         </div>
                     </div>
                         {{ form.recaptcha }}
@@ -36,6 +43,7 @@
                         {{ form.submit(value="Login", class="button is-info is-centered") }}
                     </div>
                 </form>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from flask_migrate import Migrate
 from flask_qrcode import QRcode
+from markupsafe import Markup
 
 load_dotenv()
 
@@ -71,6 +72,7 @@ from models import User
 def load_user(id):
     return User.query.get(int(id))  # Get user id from table
 
+
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
 
