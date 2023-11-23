@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for
 from app import db
 from models import User
 from users.forms import RegisterForm, LoginForm
+from flask_login import login_user
 
 # CONFIG
 users_blueprint = Blueprint('users', __name__, template_folder='templates')
@@ -49,17 +50,16 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data).first()  # Email input must match as email in database
 
-        if not user or not user.verify_password(form.password.data):
+        if not user or not user.verify_password(form.password.data):  # Password input must match password in database
             flash('Please check your login details and try again')
-            return render_template('users/login.html', form=form)
+            return render_template('users/login.html', form=form)  # if email/password don't match, reload login page
 
-        return redirect(url_for('lottery.lottery'))
+        login_user(user)  # Log in user. User is given an id and created a web session
+        return redirect(url_for('lottery.lottery'))  # if email & password match, redirect user to lottery page
 
     return render_template('users/login.html', form=form)
-
-
 
 
 # view user account
