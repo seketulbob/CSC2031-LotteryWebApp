@@ -48,3 +48,8 @@ class RegisterForm(FlaskForm):
     password = PasswordField(validators=[DataRequired(), validate_password])
     confirm_password = PasswordField(validators=[EqualTo('password', message='Password must match'), DataRequired()])
     submit = SubmitField()
+
+class LoginForm(FlaskForm):
+    email = StringField(validators=[DataRequired(), Email()])
+    password = PasswordField(validators=[DataRequired()])
+    submit = SubmitField()

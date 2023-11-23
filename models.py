@@ -28,6 +28,9 @@ class User(db.Model, UserMixin):
         self.password = password
         self.role = role
 
+    def verify_password(self, password):
+        return self.password == password
+
 
 class Draw(db.Model):
     __tablename__ = 'draws'
