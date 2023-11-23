@@ -3,7 +3,7 @@ import random
 from flask import Blueprint, render_template, flash, redirect, url_for
 from app import db
 from models import User, Draw
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 # CONFIG
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
@@ -14,7 +14,7 @@ admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
 @admin_blueprint.route('/admin')
 @login_required
 def admin():
-    return render_template('admin/admin.html', name="PLACEHOLDER FOR FIRSTNAME")
+    return render_template('admin/admin.html', name=current_user.firstname)
 
 
 # create a new winning draw
