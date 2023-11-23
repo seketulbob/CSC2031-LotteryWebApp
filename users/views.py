@@ -41,7 +41,7 @@ def register():
         session['email'] = new_user.email
 
         if 'email' not in session:
-            return redirect(url_for('main.index'))
+            return redirect(url_for('index'))
 
         # sends user to login page
         return redirect(url_for('users.setup_2fa'))
@@ -52,7 +52,7 @@ def register():
 def setup_2fa():
     user = User.query.filter_by(email=session['email']).first()
     if not user:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('index'))
 
     del session['email']
 
@@ -81,7 +81,7 @@ def login():
 @users_blueprint.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('index'))
 
 # view user account
 @users_blueprint.route('/account')
