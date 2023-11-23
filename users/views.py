@@ -3,8 +3,9 @@ from flask import Blueprint, render_template, flash, redirect, url_for, session
 from app import db
 from models import User
 from users.forms import RegisterForm, LoginForm
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from markupsafe import Markup
+from datetime import datetime
 
 
 # CONFIG
@@ -88,7 +89,15 @@ def login():
         login_user(user)
         session['authentication_attempts'] = 0
         print("login is working")
-        return redirect(url_for('lottery.lottery'))
+
+        '''current_user.last_login = current_user.current_login
+        current_user.current_login = datetime.now()
+        db.session.commit()'''
+
+        if current_user.role == 'user':
+            return redirect(url_for('lottery.lottery'))
+        else:
+            return redirect(url_for('admin.admin'))
 
     return render_template('users/login.html', form=form)
 

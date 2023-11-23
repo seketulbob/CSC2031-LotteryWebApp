@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app import db
 from lottery.forms import DrawForm
 from models import Draw
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 # CONFIG
 lottery_blueprint = Blueprint('lottery', __name__, template_folder='templates')
 
