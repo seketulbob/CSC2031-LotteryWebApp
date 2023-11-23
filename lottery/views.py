@@ -13,7 +13,7 @@ lottery_blueprint = Blueprint('lottery', __name__, template_folder='templates')
 @lottery_blueprint.route('/lottery')
 @login_required
 def lottery():
-    return render_template('lottery/lottery.html', name="PLACEHOLDER FOR FIRSTNAME")
+    return render_template('lottery/lottery.html', name=current_user.firstname)
 
 
 # view all draws that have not been played
