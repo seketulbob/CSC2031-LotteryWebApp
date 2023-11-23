@@ -1,3 +1,5 @@
+import pyotp
+
 from app import db, app
 from flask_login import UserMixin
 
@@ -16,6 +18,7 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(100), nullable=False, default='user')
+    pin_key = db.Column(db.String(32), nullable=False, default=pyotp.random_base32())
 
     # Define the relationship to Draw
     draws = db.relationship('Draw')
