@@ -47,6 +47,22 @@
                 </div>
                 <div class="field">
                     <div class="control">
+                        {{ form.dob(class="input", placeholder="Date of Birth") }}
+                        {% for error in form.dob.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        {{ form.postcode(class="input", placeholder="Postcode") }}
+                        {% for error in form.postcode.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
                         {{ form.password(class="input", placeholder="Password") }}
                         {% for error in form.password.errors %}
                             {{ error }}
