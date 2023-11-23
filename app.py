@@ -19,6 +19,10 @@ def index():
     return render_template('main/index.html')
 
 # ERRORS
+@app.errorhandler(400)
+def bad_request_error(error):
+    return render_template('error/400.html')
+
 @app.errorhandler(403)
 def forbidden_error(error):
     return render_template('error/403.html')
@@ -30,6 +34,10 @@ def not_found_error(error):
 @app.errorhandler(500)
 def internal_error(error):
     return render_template('error/500.html')
+
+@app.errorhandler(503)
+def service_unavailable_error(error):
+    return render_template('error/503.html')
 
 # BLUEPRINTS
 # import blueprints
