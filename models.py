@@ -3,6 +3,7 @@ import pyotp.totp
 
 from app import db, app
 from flask_login import UserMixin
+from datetime import datetime
 
 
 class User(db.Model, UserMixin):
@@ -20,6 +21,7 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(100), nullable=False, default='user')
     pin_key = db.Column(db.String(32), nullable=False, default=pyotp.random_base32())
+    registered_on = db.Column(db.DateTime, nullable=True)
 
     # Define the relationship to Draw
     draws = db.relationship('Draw')
@@ -31,6 +33,7 @@ class User(db.Model, UserMixin):
         self.phone = phone
         self.password = password
         self.role = role
+        self.registered_on = datetime.now()
 
     def verify_password(self, password):
         return self.password == password
