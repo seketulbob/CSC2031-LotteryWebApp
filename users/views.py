@@ -1,11 +1,12 @@
 # IMPORTS
-from flask import Blueprint, render_template, flash, redirect, url_for, session
+from flask import Blueprint, render_template, flash, redirect, url_for, session, request
 from app import db
 from models import User
 from users.forms import RegisterForm, LoginForm, PasswordForm
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required, current_user, user_logged_out
 from markupsafe import Markup
 from datetime import datetime
+import logging
 
 
 # CONFIG
@@ -40,6 +41,9 @@ def register():
         # add the new user to the database
         db.session.add(new_user)
         db.session.commit()
+
+        logging.warning('SECURITY - User registration [%s, %s]',
+                        form.email.data, request.remote_addr)  # Log user's registration
 
         session['email'] = new_user.email
 
@@ -82,6 +86,10 @@ def login():
                              'Please click <a href="/reset">here</a> to reset.'))
                 print("max login attempt catch is working")
                 return render_template('users/login.html')
+
+            logging.warning('SECURITY - Failed login attempt for user %s from IP %s',
+                            form.email.data, request.remote_addr)  # Log unsuccessful login attempt
+
             flash('Please check your login details and try again,'
                   '{} login attempts remaining'.format(3 - session.get('authentication_attempts')))
             return render_template('users/login.html', form=form)
@@ -94,9 +102,8 @@ def login():
         current_user.current_login = datetime.now()
         db.session.commit()
 
-        '''current_user.last_login = current_user.current_login
-        current_user.current_login = datetime.now()
-        db.session.commit()'''
+        logging.warning('SECURITY - Log in [%s, %s, %s]', current_user.id,
+                        current_user.email, request.remote_addr)  # Log successful login attempt
 
         if current_user.role == 'user':
             return redirect(url_for('lottery.lottery'))
@@ -111,10 +118,14 @@ def reset():
     session['authentication_attempts'] = 0
     return redirect(url_for('users.login'))
 
+
 @users_blueprint.route('/logout')
 @login_required
 def logout():
+    logging.warning('SECURITY - Logout [%s, %s]',
+                 current_user.email, request.remote_addr)
     logout_user()
+
     return redirect(url_for('index'))
 
 # view user account

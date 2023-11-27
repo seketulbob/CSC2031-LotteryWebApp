@@ -6,7 +6,26 @@ import os
 from dotenv import load_dotenv
 from flask_migrate import Migrate
 from flask_qrcode import QRcode
-from markupsafe import Markup
+import logging
+
+# LOGGER
+class SecurityFilter(logging.Filter):
+    def filter(selfself, record):
+        return 'SECURITY' in record.getMessage()  # Filter out any message that don't contain 'SECURITY'
+
+logger = logging.getLogger()  # Get logger
+logger.setLevel(logging.DEBUG)
+
+file_handler = logging.FileHandler('lottery.log', 'a')  # Create File handler to handle and update the lottery.log file
+file_handler.setLevel(logging.WARNING)
+
+file_handler.addFilter(SecurityFilter())
+
+formatter = logging.Formatter('%(asctime)s : %(message)s', '%m/%d/%Y %I:%M:%S %p')
+
+file_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
 
 load_dotenv()
 
@@ -71,6 +90,7 @@ from models import User
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))  # Get user id from table
+
 
 
 if __name__ == "__main__":

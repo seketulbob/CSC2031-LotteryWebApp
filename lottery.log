@@ -1,0 +1,9 @@
+11/27/2023 03:56:53 PM : SECURITY - Log in [8, newuser2@gmail.com, 127.0.0.1]
+11/27/2023 03:57:57 PM : SECURITY - User registration [newuser3@gmail.com, 127.0.0.1]
+11/27/2023 03:58:36 PM : SECURITY - Failed login attempt for user newuser3@gmail.com from IP 127.0.0.1
+11/27/2023 03:59:05 PM : SECURITY - Log in [9, newuser3@gmail.com, 127.0.0.1]
+11/27/2023 04:39:55 PM : SECURITY - Log in [9, newuser3@gmail.com, 127.0.0.1]
+11/27/2023 04:44:12 PM : SECURITY - Log in [9, newuser3@gmail.com, 127.0.0.1]
+11/27/2023 04:49:09 PM : SECURITY - Log in [9, newuser3@gmail.com, 127.0.0.1]
+11/27/2023 04:50:21 PM : SECURITY - Log in [9, newuser3@gmail.com, 127.0.0.1]
+11/27/2023 04:50:23 PM : SECURITY - Logout [newuser3@gmail.com, 127.0.0.1]
