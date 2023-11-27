@@ -22,6 +22,8 @@ class User(db.Model, UserMixin):
     role = db.Column(db.String(100), nullable=False, default='user')
     pin_key = db.Column(db.String(32), nullable=False, default=pyotp.random_base32())
     registered_on = db.Column(db.DateTime, nullable=True)
+    current_login = db.Column(db.DateTime, nullable=True)
+    last_login = db.Column(db.DateTime, nullable=True)
 
     # Define the relationship to Draw
     draws = db.relationship('Draw')
@@ -34,6 +36,8 @@ class User(db.Model, UserMixin):
         self.password = password
         self.role = role
         self.registered_on = datetime.now()
+        self.current_login = None
+        self.last_login = None
 
     def verify_password(self, password):
         return self.password == password

@@ -90,6 +90,10 @@ def login():
         session['authentication_attempts'] = 0
         print("login is working")
 
+        current_user.last_login = current_user.current_login
+        current_user.current_login = datetime.now()
+        db.session.commit()
+
         '''current_user.last_login = current_user.current_login
         current_user.current_login = datetime.now()
         db.session.commit()'''
