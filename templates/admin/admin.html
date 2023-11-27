@@ -133,6 +133,57 @@
         </form>
         </div>
     </div>
+    <div class="column is-8 is-offset-2">
+        <h4 class="title is-4">User Activity Logs</h4>
+        <div class="box">
+            <form action="/view_user_activity">
+                <div>
+                    <button class="button is-info is-centered">View User Activity</button>
+                </div>
+            </form>
+        </div>
+        {% if user_activity_logs %}
+            <div class="field">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Registration Date</th>
+                        <th>Current Log In</th>
+                        <th>Previous Log In</th>
+                    </tr>
+                    {% for user in user_activity_logs %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% if user.registered_on %}
+                                    {{ user.registered_on.strftime('%d/%m/%Y %H:%M:%S') }}
+                                {% else %}
+                                    Not available
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.current_login %}
+                                    {{ user.current_login.strftime('%d/%m/%Y %H:%M:%S') }}
+                                {% else %}
+                                    Not yet logged in
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.last_login %}
+                                    {{ user.last_login.strftime('%d/%m/%Y %H:%M:%S') }}
+                                {% else %}
+                                    Not available
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
 
 
 {% endblock %}

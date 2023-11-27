@@ -175,3 +175,12 @@ def logs():
         content.reverse()
 
     return render_template('admin/admin.html', logs=content, name=current_user.firstname)
+
+# view user activity logs
+@admin_blueprint.route('/view_user_activity')
+@login_required
+@requires_roles('admin')
+def view_user_activity():
+    user_activity_logs = User.query.filter_by(role='user').all()
+
+    return render_template('admin/admin.html', name=current_user.firstname, user_activity_logs=user_activity_logs)
