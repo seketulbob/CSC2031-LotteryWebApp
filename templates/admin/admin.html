@@ -86,7 +86,13 @@
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.phone }}</td>
                             <td>{{ user.role }}</td>
-                            <td>{{ user.registered_on.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+                            <td>
+                                {% if user.registered_on %}
+                                    {{ user.registered_on.strftime('%d/%m/%Y %H:%M:%S') }}
+                                {% else %}
+                                    Not available
+                                {% endif %}
+                            <td>
                             {% if user.current_login %}
                                 <td>{{ user.current_login.strftime('%d/%m/%Y %H:%M:%S') }}</td>
                             {% else %}
