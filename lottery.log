@@ -7,3 +7,8 @@
 11/27/2023 04:49:09 PM : SECURITY - Log in [9, newuser3@gmail.com, 127.0.0.1]
 11/27/2023 04:50:21 PM : SECURITY - Log in [9, newuser3@gmail.com, 127.0.0.1]
 11/27/2023 04:50:23 PM : SECURITY - Logout [newuser3@gmail.com, 127.0.0.1]
+11/27/2023 05:12:51 PM : SECURITY - Log in [9, newuser3@gmail.com, 127.0.0.1]
+11/27/2023 05:13:06 PM : SECURITY - Logout [newuser3@gmail.com, 127.0.0.1]
+11/27/2023 05:13:49 PM : SECURITY - Failed login attempt for user admin@email.com from IP 127.0.0.1
+11/27/2023 05:14:21 PM : SECURITY - Failed login attempt for user admin@email.com from IP 127.0.0.1
+11/27/2023 05:15:25 PM : SECURITY - Log in [1, admin@email.com, 127.0.0.1]

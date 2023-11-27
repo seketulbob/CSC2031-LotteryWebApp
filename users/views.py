@@ -7,6 +7,7 @@ from flask_login import login_user, logout_user, login_required, current_user, u
 from markupsafe import Markup
 from datetime import datetime
 import logging
+from admin.views import requires_roles
 
 
 # CONFIG
@@ -131,6 +132,7 @@ def logout():
 # view user account
 @users_blueprint.route('/account')
 @login_required
+@requires_roles('user', 'admin')
 def account():
     return render_template('users/account.html',
                            acc_no=current_user.id,
@@ -142,6 +144,7 @@ def account():
 @users_blueprint.route('/update_password', methods=['GET', 'POST'])
 @login_required
 def update_password():
+
     form = PasswordForm()
 
     if form.validate_on_submit():
