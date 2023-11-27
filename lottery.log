@@ -12,3 +12,4 @@
 11/27/2023 05:13:49 PM : SECURITY - Failed login attempt for user admin@email.com from IP 127.0.0.1
 11/27/2023 05:14:21 PM : SECURITY - Failed login attempt for user admin@email.com from IP 127.0.0.1
 11/27/2023 05:15:25 PM : SECURITY - Log in [1, admin@email.com, 127.0.0.1]
+11/27/2023 05:34:56 PM : SECURITY - Unauthorized access attempt - User ID: 1, Username: admin@email.com, Role: admin, IP: 127.0.0.1

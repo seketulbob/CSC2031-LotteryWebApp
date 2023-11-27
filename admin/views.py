@@ -1,10 +1,11 @@
 # IMPORTS
 import random
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, request
 from app import db
 from models import User, Draw
 from flask_login import login_required, current_user
 from functools import wraps
+import logging
 
 # CONFIG
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
@@ -15,6 +16,8 @@ def requires_roles(*roles):
         @wraps(f)
         def wrapped(*args, **kwargs):
             if current_user.role not in roles:
+                logging.warning('SECURITY - Unauthorized access attempt - User ID: %s, Username: %s, Role: %s, IP: %s',
+                                current_user.id, current_user.email, current_user.role, request.remote_addr)
                 return render_template('error/403.html')
             return f(*args, **kwargs)
         return wrapped
