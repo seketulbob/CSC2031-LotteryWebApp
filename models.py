@@ -4,6 +4,7 @@ import pyotp.totp
 from app import db, app
 from flask_login import UserMixin
 from datetime import datetime
+from cryptography.fernet import Fernet
 
 
 class User(db.Model, UserMixin):
@@ -21,9 +22,10 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(100), nullable=False, default='user')
     pin_key = db.Column(db.String(32), nullable=False, default=pyotp.random_base32())
-    registered_on = db.Column(db.DateTime, nullable=True)
+    registered_on = db.Column(db.DateTime, nullable=True)  # Change nullable=False
     current_login = db.Column(db.DateTime, nullable=True)
     last_login = db.Column(db.DateTime, nullable=True)
+    post_key = db.Column(db.BLOB, nullable=True)  # Change nullable=False
 
     # Define the relationship to Draw
     draws = db.relationship('Draw')
@@ -38,6 +40,7 @@ class User(db.Model, UserMixin):
         self.registered_on = datetime.now()
         self.current_login = None
         self.last_login = None
+        self.post_key = Fernet.generate_key()
 
     def verify_password(self, password):
         return self.password == password
@@ -47,6 +50,13 @@ class User(db.Model, UserMixin):
 
     def verify_pin(self, pin):
         return pyotp.TOTP(self.pin_key).verify(pin)
+
+
+def encrypt(data, post_key):
+    return Fernet(post_key).encrypt(bytes(data, 'utf-8'))
+
+def decrypt(data, post_key):
+    return Fernet(post_key).decrypt(data).decode('utf-8')
 
 
 class Draw(db.Model):
@@ -72,13 +82,16 @@ class Draw(db.Model):
     # Lottery round that draw is used
     lottery_round = db.Column(db.Integer, nullable=False, default=0)
 
-    def __init__(self, user_id, numbers, master_draw, lottery_round):
+    def __init__(self, user_id, numbers, master_draw, lottery_round, post_key):
         self.user_id = user_id
-        self.numbers = numbers
+        self.numbers = encrypt(numbers, post_key)
         self.been_played = False
         self.matches_master = False
         self.master_draw = master_draw
         self.lottery_round = lottery_round
+
+    def view_draw(self, post_key):
+        self.numbers = decrypt(self.numbers, post_key)
 
 
 def init_db():

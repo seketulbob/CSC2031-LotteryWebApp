@@ -11,3 +11,4 @@ flask_script
 Flask-Migrate
 flask-qrcode
 markupsafe
+cryptography
