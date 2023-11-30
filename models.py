@@ -70,6 +70,9 @@ class Draw(db.Model):
     # 6 draw numbers submitted
     numbers = db.Column(db.String(100), nullable=False)
 
+    # 6 decrypted draw numbers (for matching against winning draw)
+    decrypted_numbers = db.Column(db.String(100))
+
     # Draw has already been played (can only play draw once)
     been_played = db.Column(db.BOOLEAN, nullable=False, default=False)
 
@@ -85,13 +88,15 @@ class Draw(db.Model):
     def __init__(self, user_id, numbers, master_draw, lottery_round, post_key):
         self.user_id = user_id
         self.numbers = encrypt(numbers, post_key)
+        self.decrypted_numbers = None
         self.been_played = False
         self.matches_master = False
         self.master_draw = master_draw
         self.lottery_round = lottery_round
 
     def view_draw(self, post_key):
-        self.numbers = decrypt(self.numbers, post_key)
+        self.decrypted_numbers = decrypt(self.numbers, post_key)
+        self.numbers = None
 
 
 def init_db():
