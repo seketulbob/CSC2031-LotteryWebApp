@@ -4,7 +4,7 @@ import pyotp.totp
 from app import db, app
 from flask_login import UserMixin
 from datetime import datetime
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 
 
 class User(db.Model, UserMixin):
@@ -96,7 +96,10 @@ class Draw(db.Model):
 
     def view_draw(self, post_key):
         self.decrypted_numbers = decrypt(self.numbers, post_key)
-        self.numbers = None
+        self.numbers = decrypt(self.numbers, post_key)
+
+    def decrypt_numbers(self, post_key):
+        return decrypt(self.numbers, post_key) if self.numbers else None
 
 
 def init_db():

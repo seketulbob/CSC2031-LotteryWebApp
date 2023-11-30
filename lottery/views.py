@@ -1,4 +1,5 @@
 # IMPORTS
+import cryptography.fernet
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app import db
 from lottery.forms import DrawForm
@@ -6,6 +7,8 @@ from models import Draw, User
 from flask_login import login_user, logout_user, login_required, current_user
 from admin.views import requires_roles
 from sqlalchemy.orm import make_transient
+from cryptography.fernet import Fernet, InvalidToken
+
 # CONFIG
 lottery_blueprint = Blueprint('lottery', __name__, template_folder='templates')
 
@@ -52,14 +55,20 @@ def create_draw():
 @login_required
 @requires_roles('user')
 def view_draws():
-    user = User.query.filter_by(id=Draw.user_id).first()
+    user = User.query.filter_by(id=current_user.id).first()
+
     # get all draws that have not been played [played=0]
     playable_draws = Draw.query.filter_by(been_played=False).all()
     decrypted_draws = []
+
     for draw in playable_draws:
         make_transient(draw)
-        draw.view_draw(user.post_key)
-        decrypted_draws.append(draw)
+
+        try:
+            draw.view_draw(user.post_key)
+            decrypted_draws.append(draw)
+        except cryptography.fernet.InvalidToken:
+            pass
 
     # if playable draws exist
     if len(playable_draws) != 0:

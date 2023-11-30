@@ -132,11 +132,15 @@ def run_lottery():
                 # get the owning user (instance/object)
                 user = User.query.filter_by(id=draw.user_id).first()
 
+                # decrypt draw numbers
+                decrypted_winning_numbers = current_winning_draw.decrypt_numbers(current_user.post_key)
+                decrypted_user_numbers = draw.decrypt_numbers(user.post_key)
+
                 # if user draw matches current unplayed winning draw
-                if draw.numbers == current_winning_draw.numbers:
+                if decrypted_user_numbers == decrypted_winning_numbers:
 
                     # add details of winner to list of results
-                    results.append((current_winning_draw.lottery_round, draw.numbers, draw.user_id, user.email))
+                    results.append((current_winning_draw.lottery_round, decrypted_user_numbers, draw.user_id, user.email))
 
                     # update draw as a winning draw (this will be used to highlight winning draws in the user's
                     # lottery page)
@@ -147,6 +151,10 @@ def run_lottery():
 
                 # update draw with current lottery round
                 draw.lottery_round = current_winning_draw.lottery_round
+
+                # store decrypted numbers in decrypted_numbers column in database
+                draw.decrypted_numbers = decrypted_user_numbers
+                current_winning_draw.decrypted_numbers = decrypted_winning_numbers
 
                 # commit draw changes to DB
                 db.session.add(draw)
