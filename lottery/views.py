@@ -60,7 +60,6 @@ def view_draws():
         make_transient(draw)
         draw.view_draw(user.post_key)
         decrypted_draws.append(draw)
-    # decrypted_draws = playable_draws.view_draw(current_user.post_key)
 
     # if playable draws exist
     if len(playable_draws) != 0:

@@ -6,6 +6,7 @@ from models import User, Draw
 from flask_login import login_required, current_user
 from functools import wraps
 import logging
+from sqlalchemy.orm import make_transient
 
 # CONFIG
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
@@ -84,14 +85,17 @@ def generate_winning_draw():
 @login_required
 @requires_roles('admin')
 def view_winning_draw():
-
+    admin_user = User.query.filter_by(role='admin').first()
     # get winning draw from DB
-    current_winning_draw = Draw.query.filter_by(master_draw=True,been_played=False).first()
+    current_winning_draw = Draw.query.filter_by(master_draw=True, been_played=False).first()
 
-    # if a winning draw exists
     if current_winning_draw:
+        make_transient(current_winning_draw)
+        current_winning_draw.view_draw(admin_user.post_key)
+        decrypted_winning_draw = current_winning_draw
+
         # re-render admin page with current winning draw and lottery round
-        return render_template('admin/admin.html', winning_draw=current_winning_draw, name="PLACEHOLDER FOR FIRSTNAME")
+        return render_template('admin/admin.html', winning_draw=decrypted_winning_draw, name=current_user.firstname)
 
     # if no winning draw exists, rerender admin page
     flash("No valid winning draw exists. Please add new winning draw.")
