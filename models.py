@@ -5,6 +5,7 @@ from app import db, app
 from flask_login import UserMixin
 from datetime import datetime
 from cryptography.fernet import Fernet, InvalidToken
+import bcrypt
 
 
 class User(db.Model, UserMixin):
@@ -35,7 +36,7 @@ class User(db.Model, UserMixin):
         self.firstname = firstname
         self.lastname = lastname
         self.phone = phone
-        self.password = password
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         self.role = role
         self.registered_on = datetime.now()
         self.current_login = None
@@ -43,7 +44,7 @@ class User(db.Model, UserMixin):
         self.post_key = Fernet.generate_key()
 
     def verify_password(self, password):
-        return self.password == password
+        return bcrypt.checkpw(password.encode('utf-8'), self.password)
 
     def get_2fa_uri(self):
         return str(pyotp.totp.TOTP(self.pin_key).provisioning_uri(name=self.email, issuer_name='Lottery'))
