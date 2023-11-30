@@ -60,15 +60,22 @@ def generate_winning_draw():
         winning_numbers_string += str(winning_numbers[i]) + ' '
     winning_numbers_string = winning_numbers_string[:-1]
 
-    # create a new draw object.
-    new_winning_draw = Draw(user_id=1, numbers=winning_numbers_string, master_draw=True, lottery_round=lottery_round)
+    admin_user = User.query.filter_by(role='admin').first()
 
-    # add the new winning draw to the database
-    db.session.add(new_winning_draw)
-    db.session.commit()
+    if admin_user:
+        # create a new draw object.
+        new_winning_draw = Draw(user_id=admin_user.id, numbers=winning_numbers_string, master_draw=True,
+                                lottery_round=lottery_round, post_key=admin_user.post_key)
+
+        # add the new winning draw to the database
+        db.session.add(new_winning_draw)
+        db.session.commit()
+
+        flash("New winning draw %s added." % winning_numbers_string)
+    else:
+        flash("Admin user not found")
 
     # re-render admin page
-    flash("New winning draw %s added." % winning_numbers_string)
     return redirect(url_for('admin.admin'))
 
 
