@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from functools import wraps
 import logging
 from sqlalchemy.orm import make_transient
-
+import secrets
 # CONFIG
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
 
@@ -54,7 +54,7 @@ def generate_winning_draw():
         db.session.commit()
 
     # get new winning numbers for draw
-    winning_numbers = random.sample(range(1, 60), 6)
+    winning_numbers = [secrets.randbelow(60) + 1 for _ in range(6)]
     winning_numbers.sort()
     winning_numbers_string = ''
     for i in range(6):
