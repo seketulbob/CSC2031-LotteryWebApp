@@ -99,10 +99,21 @@ def view_draws():
 def check_draws():
     # get played draws
     played_draws = Draw.query.filter_by(been_played=True).all()
+    user = User.query.filter_by(id=current_user.id).first()
+    decrypted_draws = []
+
+    for draw in played_draws:
+        make_transient(draw)
+
+        try:
+            draw.view_draw(user.post_key)
+            decrypted_draws.append(draw)
+        except cryptography.fernet.InvalidToken:
+            pass
 
     # if played draws exist
     if len(played_draws) != 0:
-        return render_template('lottery/lottery.html', results=played_draws, played=True)
+        return render_template('lottery/lottery.html', results=decrypted_draws, played=True)
 
     # if no played draws exist [all draw entries have been played therefore wait for next lottery round]
     else:
