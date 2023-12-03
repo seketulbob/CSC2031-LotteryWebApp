@@ -22,8 +22,6 @@ def lottery():
     return render_template('lottery/lottery.html', name=current_user.firstname)
 
 
-# view all draws that have not been played
-# view all draws that have not been played
 @lottery_blueprint.route('/create_draw', methods=['POST'])
 @login_required
 @requires_roles('user')

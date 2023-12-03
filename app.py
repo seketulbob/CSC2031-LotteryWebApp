@@ -10,7 +10,7 @@ import logging
 
 # LOGGER
 class SecurityFilter(logging.Filter):
-    def filter(selfself, record):
+    def filter(self, record):
         return 'SECURITY' in record.getMessage()  # Filter out any message that don't contain 'SECURITY'
 
 logger = logging.getLogger()  # Get logger
