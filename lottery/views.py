@@ -23,6 +23,7 @@ def lottery():
 
 
 # view all draws that have not been played
+# view all draws that have not been played
 @lottery_blueprint.route('/create_draw', methods=['POST'])
 @login_required
 @requires_roles('user')
@@ -30,15 +31,29 @@ def create_draw():
     form = DrawForm()
 
     if form.validate_on_submit():
-        submitted_numbers = (str(form.number1.data) + ' '
-                          + str(form.number2.data) + ' '
-                          + str(form.number3.data) + ' '
-                          + str(form.number4.data) + ' '
-                          + str(form.number5.data) + ' '
-                          + str(form.number6.data))
+        numbers = [
+            form.number1.data, form.number2.data, form.number3.data,
+            form.number4.data, form.number5.data, form.number6.data
+        ]
+
+        # Validate the form to contain exactly 6 numbers
+        if len(numbers) != 6 or any(num is None or not 1 <= num <= 60 for num in numbers):
+            flash('Draw must contain exactly 6 numbers between 1 and 60.')
+            return redirect(url_for('lottery.lottery'))
+
+        submitted_numbers = ' '.join(map(str, numbers))
+
+        # Check for blank fields
+        if any(num == '' or num is None for num in numbers):
+            flash('All fields must be filled in.')
+            return redirect(url_for('lottery.lottery'))
+
         # create a new draw with the form data.
-        new_draw = Draw(user_id=current_user.id, numbers=submitted_numbers, master_draw=False, lottery_round=0,
-                        post_key=current_user.post_key)
+        new_draw = Draw(
+            user_id=current_user.id, numbers=submitted_numbers,
+            master_draw=False, lottery_round=0, post_key=current_user.post_key
+        )
+
         # add the new draw to the database
         db.session.add(new_draw)
         db.session.commit()
