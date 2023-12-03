@@ -34,17 +34,17 @@ def create_draw():
             form.number4.data, form.number5.data, form.number6.data
         ]
 
-        # Validate the form to contain exactly 6 numbers
+        # Check for unique numbers
+        if len(set(numbers)) != 6:
+            flash('Numbers must be unique.')
+            return redirect(url_for('lottery.lottery'))
+
+        # Validate the form to contain exactly 6 numbers and the numbers between 1 and 60
         if len(numbers) != 6 or any(num is None or not 1 <= num <= 60 for num in numbers):
             flash('Draw must contain exactly 6 numbers between 1 and 60.')
             return redirect(url_for('lottery.lottery'))
 
         submitted_numbers = ' '.join(map(str, numbers))
-
-        # Check for blank fields
-        if any(num == '' or num is None for num in numbers):
-            flash('All fields must be filled in.')
-            return redirect(url_for('lottery.lottery'))
 
         # create a new draw with the form data.
         new_draw = Draw(

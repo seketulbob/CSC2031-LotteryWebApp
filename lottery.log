@@ -40,3 +40,13 @@
 12/03/2023 02:29:11 AM : SECURITY - Unauthorized access attempt - User ID: 13, Username: admin1@gmail.com, Role: admin, IP: 127.0.0.1
 12/03/2023 02:29:56 AM : SECURITY - Logout [admin1@gmail.com, 127.0.0.1]
 12/03/2023 02:30:21 AM : SECURITY - Log in [12, newuser5@gmail.com, 127.0.0.1]
+12/03/2023 02:38:40 AM : SECURITY - Logout [newuser5@gmail.com, 127.0.0.1]
+12/03/2023 02:39:23 AM : SECURITY - Log in [13, admin1@gmail.com, 127.0.0.1]
+12/03/2023 02:40:13 AM : SECURITY - Logout [admin1@gmail.com, 127.0.0.1]
+12/03/2023 02:40:45 AM : SECURITY - Log in [12, newuser5@gmail.com, 127.0.0.1]
+12/03/2023 02:41:32 AM : SECURITY - Logout [newuser5@gmail.com, 127.0.0.1]
+12/03/2023 02:42:10 AM : SECURITY - Failed login attempt for user admin1@gmail.com from IP 127.0.0.1
+12/03/2023 02:42:23 AM : SECURITY - Failed login attempt for user admin1@gmail.com from IP 127.0.0.1
+12/03/2023 02:43:05 AM : SECURITY - Log in [13, admin1@gmail.com, 127.0.0.1]
+12/03/2023 02:56:01 AM : SECURITY - Logout [admin1@gmail.com, 127.0.0.1]
+12/03/2023 02:56:29 AM : SECURITY - Log in [12, newuser5@gmail.com, 127.0.0.1]
