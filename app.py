@@ -86,6 +86,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.init_app(app)
 
+
 from models import User
 @login_manager.user_loader
 def load_user(id):
@@ -94,5 +95,7 @@ def load_user(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(ssl_context=('cert.pem', 'key.pem'), debug=False)
+
+
 

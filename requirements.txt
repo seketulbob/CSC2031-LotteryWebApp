@@ -13,3 +13,5 @@ flask-qrcode
 markupsafe
 cryptography
 bcrypt
+pyopenssl
+gunicorn
