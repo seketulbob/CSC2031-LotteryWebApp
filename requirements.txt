@@ -14,4 +14,4 @@ markupsafe
 cryptography
 bcrypt
 pyopenssl
-gunicorn
+Flask-Talisman

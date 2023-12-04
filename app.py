@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from flask_migrate import Migrate
 from flask_qrcode import QRcode
 import logging
+from flask_talisman import Talisman
 
 # LOGGER
 class SecurityFilter(logging.Filter):
@@ -40,6 +41,18 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIF
 
 # initialise database
 db = SQLAlchemy(app)
+
+csp = {
+    'default-src': ['\'self\''],
+    'style-src': ['\'self\'', 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css'],
+    'script-src': ['\'self\'', '\'unsafe-inline\'', 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/'],
+    'frame-src': ['\'self\'', 'https://www.google.com/recaptcha/'],
+    'img-src': ['data:'],
+}
+
+# initialise security headers
+talisman = Talisman(app, content_security_policy=csp)
+
 qrcode = QRcode(app)
 migrate = Migrate(app, db)
 
