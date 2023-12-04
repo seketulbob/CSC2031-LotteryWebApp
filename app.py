@@ -42,6 +42,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIF
 # initialise database
 db = SQLAlchemy(app)
 
+# Security headers
 csp = {
     'default-src': ['\'self\''],
     'style-src': ['\'self\'', 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css'],
