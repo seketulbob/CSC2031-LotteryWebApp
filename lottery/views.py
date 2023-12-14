@@ -86,7 +86,7 @@ def view_draws():
     # if playable draws exist
     if len(playable_draws) != 0:
         # re-render lottery page with playable draws
-        return render_template('lottery/lottery.html', playable_draws=decrypted_draws)
+        return render_template('lottery/lottery.html', name=current_user.firstname, playable_draws=decrypted_draws)
     else:
         flash('No playable draws.')
         return lottery()
