@@ -51,3 +51,20 @@
 12/03/2023 02:56:01 AM : SECURITY - Logout [admin1@gmail.com, 127.0.0.1]
 12/03/2023 02:56:29 AM : SECURITY - Log in [12, newuser5@gmail.com, 127.0.0.1]
 12/03/2023 11:09:29 PM : SECURITY - Logout [newuser5@gmail.com, 127.0.0.1]
+12/14/2023 12:09:10 AM : SECURITY - User registration [newuser1@gmail.com, 127.0.0.1]
+12/14/2023 12:10:12 AM : SECURITY - Log in [14, newuser1@gmail.com, 127.0.0.1]
+12/14/2023 12:11:40 AM : SECURITY - Unauthorized access attempt - User ID: 14, Username: newuser1@gmail.com, Role: user, IP: 127.0.0.1
+12/14/2023 12:12:16 AM : SECURITY - Logout [newuser1@gmail.com, 127.0.0.1]
+12/14/2023 12:12:50 AM : SECURITY - Failed login attempt for user newuser1@gmail.com from IP 127.0.0.1
+12/14/2023 12:12:59 AM : SECURITY - Failed login attempt for user newuser1@gmail.com from IP 127.0.0.1
+12/14/2023 12:14:20 AM : SECURITY - Log in [14, newuser1@gmail.com, 127.0.0.1]
+12/14/2023 12:17:20 AM : SECURITY - Logout [newuser1@gmail.com, 127.0.0.1]
+12/14/2023 12:18:06 AM : SECURITY - Log in [13, admin1@gmail.com, 127.0.0.1]
+12/14/2023 12:19:35 AM : SECURITY - Logout [admin1@gmail.com, 127.0.0.1]
+12/14/2023 12:21:20 AM : SECURITY - User registration [admin2@gmail.com, 127.0.0.1]
+12/14/2023 12:21:47 AM : SECURITY - Failed login attempt for user admin2@gmail.com from IP 127.0.0.1
+12/14/2023 12:22:30 AM : SECURITY - Failed login attempt for user admin2@gmail.com from IP 127.0.0.1
+12/14/2023 12:23:34 AM : SECURITY - User registration [admin3@gmail.com, 127.0.0.1]
+12/14/2023 12:24:10 AM : SECURITY - Log in [16, admin3@gmail.com, 127.0.0.1]
+12/14/2023 12:31:36 AM : SECURITY - Logout [admin3@gmail.com, 127.0.0.1]
+12/14/2023 12:31:53 AM : SECURITY - Log in [16, admin3@gmail.com, 127.0.0.1]

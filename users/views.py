@@ -8,6 +8,7 @@ from markupsafe import Markup
 from datetime import datetime
 import logging
 from admin.views import requires_roles
+import bcrypt
 
 
 # CONFIG
@@ -158,8 +159,9 @@ def update_password():
             flash('New password must be different from the current password')
             return render_template('users/update_password.html', form=form)
 
-        # If both check pass, update the password
-        current_user.password = form.new_password.data
+        # If both check pass, hash and update the password
+        new_password_hash = bcrypt.hashpw(form.new_password.data.encode('utf-8'), bcrypt.gensalt())
+        current_user.password = new_password_hash
         db.session.commit()
         flash('Password changed successfully')
         return redirect(url_for('users.account'))
